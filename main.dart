@@ -5,18 +5,18 @@
   String maxWord = "";
   int maxCount = 0;
 
-  // Loop through each word
+  // Loop through words
   for (int i = 0; i < words.length; i++) {
     int count = 0;
 
-    // Count how many times words[i] appears
+    // Count how many times a word repeats
     for (int j = 0; j < words.length; j++) {
       if (words[i] == words[j]) {
         count++;
       }
     }
 
-    // Update max if needed
+    // Updates the max
     if (count > maxCount) {
       maxCount = count;
       maxWord = words[i];
