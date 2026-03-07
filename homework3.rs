@@ -8,13 +8,33 @@ struct Book {
 }
 
 fn save_books(books: &Vec<Book>, filename: &str) {
-    // TODO: Implement this function
-    // Hint: Use File::create() and write!() macro
+    let mut file = File::create(filename).expect("Unable to create file");
+
+    for book in books {
+        write!(file, "{},{},{}\n", book.title, book.author, book.year).expect("write failed");
+    }
 }
 
 fn load_books(filename: &str) -> Vec<Book> {
-    // TODO: Implement this function
-    // Hint: Use File::open() and BufReader
+    let file = File::open(filename).expect("Unable to open file");
+    let reader = BufReader::new(file);
+
+    let mut books = Vec::new();
+
+    for line in reader.lines() {
+        let line = line.expect("read error");
+        let parts: Vec<&str> = line.split(',').collect();
+
+        if parts.len() == 3 {
+            books.push(Book {
+                title: parts[0].to_string(),
+                author: parts[1].to_string(),
+                year: parts[2].parse().unwrap(),
+            });
+        }
+    }
+
+    books
 }
 
 fn main() {
